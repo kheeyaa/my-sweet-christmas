@@ -1,25 +1,26 @@
-import * as THREE from "three";
-import { useRef, useState } from "react";
-import { useFrame, ThreeElements } from "@react-three/fiber";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ThreeElements } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
+import tree from "../assets/layerTree.glb";
 
-export default function Box(props: ThreeElements["mesh"]) {
-  const meshRef = useRef<THREE.Mesh>(null!);
-  const [hovered, setHover] = useState(false);
-  const [active, setActive] = useState(false);
-
-  useFrame((state, delta) => (meshRef.current.rotation.x += delta));
+export default function Box(props: ThreeElements["group"]) {
+  const { nodes, materials } = useGLTF(tree as string) as any;
 
   return (
-    <mesh
-      {...props}
-      ref={meshRef}
-      scale={active ? 1.5 : 1}
-      onClick={() => setActive(!active)}
-      onPointerOver={() => setHover(true)}
-      onPointerOut={() => setHover(false)}
-    >
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? "hotpink" : "orange"} />
-    </mesh>
+    <group {...props}>
+      <mesh geometry={nodes.pole.geometry} material={materials.brown} />
+      <mesh
+        geometry={nodes.leavesLayer1.geometry}
+        material={materials.green1}
+      />
+      <mesh
+        geometry={nodes.leavesLayer2.geometry}
+        material={materials.green2}
+      />{" "}
+      <mesh
+        geometry={nodes.leavesLayer3.geometry}
+        material={materials.green3}
+      />
+    </group>
   );
 }
