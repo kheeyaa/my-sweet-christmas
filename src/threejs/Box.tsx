@@ -3,15 +3,16 @@ import { useGLTF } from "@react-three/drei";
 import tree from "../assets/layerTree.glb";
 import { Vector3 } from "three";
 import { useEffect, useRef } from "react";
+import { Mesh } from "three";
 import gsap from "gsap";
 
 export default function Box(props: ThreeElements["group"]) {
   const { nodes, materials } = useGLTF(tree as string) as any;
 
-  const poleRef = useRef<any>(null);
-  const leavesLayer1Ref = useRef<any>(null);
-  const leavesLayer2Ref = useRef<any>(null);
-  const leavesLayer3Ref = useRef<any>(null);
+  const poleRef = useRef<Mesh>(null);
+  const leavesLayer1Ref = useRef<Mesh>(null);
+  const leavesLayer2Ref = useRef<Mesh>(null);
+  const leavesLayer3Ref = useRef<Mesh>(null);
 
   useEffect(() => {
     gsap.to(poleRef?.current.scale, {
